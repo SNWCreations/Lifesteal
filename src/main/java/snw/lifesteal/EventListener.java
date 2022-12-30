@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EventListener implements Listener {
     private final Main main;
@@ -37,8 +39,15 @@ public class EventListener implements Listener {
         }, 1L);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void interact(PlayerInteractEvent e) {
-        // TODO implement consume heart item
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            ItemStack handItem = e.getPlayer().getInventory().getItemInMainHand();
+            if (Constants.HEART_ITEM.isSimilar(handItem)) {
+                AttributeInstance i = e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                i.setBaseValue(i.getBaseValue() + 2.0);
+                handItem.setAmount(handItem.getAmount() - 1);
+            }
+        }
     }
 }
