@@ -3,3 +3,10 @@ version: '${project.version}'
 author: "SNWCreations"
 main: snw.lifesteal.Main
 api-version: 1.16
+
+commands:
+  lifesteal:
+    description: "Lifesteal 插件功能的总开关。"
+    usage: "/lifesteal"
+    permission: op
+    permission-message: You do not have <permission>

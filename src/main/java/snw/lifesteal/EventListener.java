@@ -17,7 +17,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        // TODO check flag to continue
+        if (!main.work) return;
         e.getEntity().spigot().respawn();
         main.getServer().getScheduler().runTaskLater(main, () -> {
             Player killer = e.getEntity().getKiller();
