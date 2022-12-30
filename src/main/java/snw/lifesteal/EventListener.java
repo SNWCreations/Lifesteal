@@ -1,5 +1,6 @@
 package snw.lifesteal;
 
+import org.bukkit.ChatColor;
 import org.bukkit.BanList.Type;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -10,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EventListener implements Listener {
@@ -49,5 +51,11 @@ public class EventListener implements Listener {
                 handItem.setAmount(handItem.getAmount() - 1);
             }
         }
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        e.getPlayer().sendMessage(Util.pluginMsg("插件已" + ((main.work) ? (ChatColor.GREEN + "启用") : (ChatColor.RED + "禁用"))));
+        e.getPlayer().setHealthScaled(true);
     }
 }
