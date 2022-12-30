@@ -5,8 +5,10 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EventListener implements Listener {
     private final Main main;
@@ -33,5 +35,10 @@ public class EventListener implements Listener {
                 }
             }
         }, 1L);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void interact(PlayerInteractEvent e) {
+        // TODO implement consume heart item
     }
 }
