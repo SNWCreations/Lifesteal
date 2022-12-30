@@ -10,3 +10,6 @@ commands:
     usage: "/lifesteal"
     permission: op
     permission-message: You do not have <permission>
+  heart:
+    description: "使用此命令取出你的心(即血量上限)，作为物品。"
+    usage: "/heart <数量>"

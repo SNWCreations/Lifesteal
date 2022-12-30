@@ -9,6 +9,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getCommand("lifesteal").setExecutor(new LifeStealCommand(this));
+        getCommand("heart").setExecutor(new HeartCommand());
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
     }
 
