@@ -1,6 +1,8 @@
 package snw.lifesteal;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -59,8 +61,10 @@ public class TransferHeartCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        // TODO Auto-generated method stub
-        return null;
+        if (args.length == 0) {
+            return main.getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+        }
+        return (List<String>) Collections.EMPTY_LIST;
     }
     
 }
