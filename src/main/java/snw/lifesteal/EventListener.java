@@ -56,6 +56,5 @@ public class EventListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         e.getPlayer().sendMessage(Util.pluginMsg("插件已" + ((main.work) ? (ChatColor.GREEN + "启用") : (ChatColor.RED + "禁用"))));
-        e.getPlayer().setHealthScaled(true);
     }
 }
