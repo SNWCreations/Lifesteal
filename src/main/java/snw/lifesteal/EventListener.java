@@ -41,7 +41,7 @@ public class EventListener implements Listener {
         }, 1L);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void interact(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             ItemStack handItem = e.getPlayer().getInventory().getItemInMainHand();
