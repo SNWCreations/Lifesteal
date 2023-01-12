@@ -13,3 +13,6 @@ commands:
   drawheart:
     description: "使用此命令取出你的心(即血量上限)，作为物品。"
     usage: "/drawheart <数量>"
+  transferheart:
+    description: "使用此命令将你的心瞬间转移给指定的玩家。此操作不可逆，慎重。"
+    usage: "/transferheart <玩家> <血量>"

@@ -13,6 +13,7 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         getCommand("lifesteal").setExecutor(new LifeStealCommand(this));
         getCommand("drawheart").setExecutor(new DrawHeartCommand());
+        getCommand("transferheart").setExecutor(new TransferHeartCommand(this));
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         initRecipe();
     }
