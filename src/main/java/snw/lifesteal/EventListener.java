@@ -1,7 +1,7 @@
 package snw.lifesteal;
 
-import org.bukkit.ChatColor;
 import org.bukkit.BanList.Type;
+import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,25 +21,33 @@ public class EventListener implements Listener {
         this.main = main;
     }
 
-    @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    @EventHandler(ignoreCancelled = true)
+    public void onDeath(EntityDamageByEntityEvent e) {
         if (!main.work) return;
-        e.getEntity().spigot().respawn();
-        main.getServer().getScheduler().runTaskLater(main, () -> {
-            Player killer = e.getEntity().getKiller();
-            if (killer != null) { // or a mob killed this player?
-                AttributeInstance k = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH); // killer's max health attribute instance
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            Player damaged = ((Player) e.getEntity());
+            Player damager = (Player) e.getDamager();
+
+            if (e.getFinalDamage() >= damaged.getHealth()) { // will die
+                AttributeInstance k = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH); // killer's max health attribute instance
                 k.setBaseValue(k.getBaseValue() + 2.0); // 2 -> 1 heart
-                AttributeInstance d = e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                AttributeInstance d = damaged.getAttribute(Attribute.GENERIC_MAX_HEALTH);
                 if (d.getBaseValue() - 2.0 <= 0) {
                     d.setBaseValue(20.0); // reset
-                    main.getServer().getBanList(Type.NAME).addBan(e.getEntity().getName(), "你失败了！游戏结束了！", null, null);
+                    main.getServer().getBanList(Type.NAME).addBan(
+                            e.getEntity().getName(),
+                            "你失败了！游戏结束了！",
+                            null,
+                            null
+                    );
                 } else {
                     d.setBaseValue(d.getBaseValue() - 2.0); // remove a heart
+                    damaged.sendMessage(Util.pluginMsg("你失去了一颗心！"));
                 }
             }
-        }, 1L);
+        }
     }
+
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void interact(PlayerInteractEvent e) {
