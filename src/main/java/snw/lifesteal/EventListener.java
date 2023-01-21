@@ -42,7 +42,7 @@ public class EventListener implements Listener {
                             null,
                             null
                     );
-                    damaged.kickPlayer("你失败了！游戏结束了！");
+                    main.getServer().getScheduler().runTaskLater(main, () -> damaged.kickPlayer("你失败了！游戏结束了！"), 1L);
                 } else {
                     main.getServer().getScheduler().runTaskLater(main, () -> {
                         damaged.spigot().respawn();
