@@ -14,6 +14,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Set;
+
 public class EventListener implements Listener {
     private final Main main;
 
@@ -40,9 +42,13 @@ public class EventListener implements Listener {
                             null,
                             null
                     );
+                    damaged.kickPlayer("你失败了！游戏结束了！");
                 } else {
-                    d.setBaseValue(d.getBaseValue() - 2.0); // remove a heart
-                    damaged.sendMessage(Util.pluginMsg("你失去了一颗心！"));
+                    main.getServer().getScheduler().runTaskLater(main, () -> {
+                        damaged.spigot().respawn();
+                        d.setBaseValue(d.getBaseValue() - 2.0); // remove a heart
+                        damaged.sendMessage(Util.pluginMsg("你失去了一颗心！"));
+                    }, 1L);
                 }
             }
         }
